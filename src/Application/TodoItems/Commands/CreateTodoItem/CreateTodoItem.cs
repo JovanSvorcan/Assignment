@@ -1,4 +1,6 @@
-﻿using Assignment.Application.Common.Interfaces;
+﻿using Assignment.Application.Cache;
+using Assignment.Application.Common.Interfaces;
+using Assignment.Application.TodoLists.Queries.GetTodos;
 using Assignment.Domain.Entities;
 using Assignment.Domain.Enums;
 using Assignment.Domain.Events;
@@ -39,6 +41,8 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
         _context.TodoItems.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        InMemoryCache<int, IList<TodoItemDto>>.Reset();
 
         return entity.Id;
     }

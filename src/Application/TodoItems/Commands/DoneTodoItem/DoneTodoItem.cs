@@ -1,4 +1,6 @@
-﻿using Assignment.Application.Common.Interfaces;
+﻿using Assignment.Application.Cache;
+using Assignment.Application.Common.Interfaces;
+using Assignment.Application.TodoLists.Queries.GetTodos;
 
 namespace Assignment.Application.TodoItems.Commands.DoneTodoItem;
 
@@ -21,6 +23,8 @@ public class DoneTodoItemCommandHandler : IRequestHandler<DoneTodoItemCommand>
         Guard.Against.NotFound(request.Id, entity);
 
         entity.Done = true;
+
+        InMemoryCache<int, IList<TodoItemDto>>.Reset();
 
         await _context.SaveChangesAsync(cancellationToken);
     }

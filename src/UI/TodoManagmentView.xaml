@@ -20,7 +20,7 @@
             <Button Content="Add Todo List" Command="{Binding AddTodoListCommand}" Margin="5"/>
         </StackPanel>
         <!-- Todo Items Detail Panel -->
-        <Grid Grid.Column="1" DataContext="{Binding SelectedTodoList}">
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="350"/>
                 <RowDefinition Height="30"/>
@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <ListView ItemsSource="{Binding Items}" SelectedItem="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=Window}}" Grid.Row="0" Grid.ColumnSpan="3">
+            <ListView ItemsSource="{Binding TodoItems}" SelectedItem="{Binding DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=Window}}" Grid.Row="0" Grid.ColumnSpan="3">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="300"/>

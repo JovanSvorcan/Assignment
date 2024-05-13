@@ -1,12 +1,13 @@
 ﻿using Assignment.Application.Common.Interfaces;
+using Assignment.Application.Common.Models;
 using Assignment.Application.Common.Security;
 
 namespace Assignment.Application.TodoLists.Queries.GetTodos;
 
 [Authorize]
-public record GetTodosQuery : IRequest<IList<TodoListDto>>;
+public record GetTodosQuery : IRequest<IList<LookupDto>>;
 
-public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, IList<TodoListDto>>
+public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, IList<LookupDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -17,12 +18,10 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, IList<TodoLis
         _mapper = mapper;
     }
 
-    public async Task<IList<TodoListDto>> Handle(GetTodosQuery request, CancellationToken cancellationToken)
+    public async Task<IList<LookupDto>> Handle(GetTodosQuery request, CancellationToken cancellationToken)
     {
         return await _context.TodoLists
-                .AsNoTracking()
-                .ProjectTo<TodoListDto>(_mapper.ConfigurationProvider)
-                .OrderBy(t => t.Title)
+                .Select(list => new LookupDto { Id = list.Id, Title = list.Title })
                 .ToListAsync(cancellationToken);
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System.Windows.Input;
+using Assignment.Application.Cache;
+using Assignment.Application.Common.Models;
 using Assignment.Application.TodoItems.Commands.DoneTodoItem;
+using Assignment.Application.TodoItems.Queries.GetItems;
 using Assignment.Application.TodoLists.Queries.GetTodos;
 using Caliburn.Micro;
 using MediatR;
@@ -10,8 +13,8 @@ internal class TodoManagmentViewModel : Screen
     private readonly ISender _sender;
     private readonly IWindowManager _windowManager;
 
-    private IList<TodoListDto> todoLists;
-    public IList<TodoListDto> TodoLists
+    private IList<LookupDto> todoLists;
+    public IList<LookupDto> TodoLists
     {
         get
         {
@@ -24,14 +27,33 @@ internal class TodoManagmentViewModel : Screen
         }
     }
 
-    private TodoListDto _selectedTodoList;
-    public TodoListDto SelectedTodoList
+    private LookupDto _selectedTodoList;
+    public LookupDto SelectedTodoList
     {
         get => _selectedTodoList;
         set
         {
             _selectedTodoList = value;
             NotifyOfPropertyChange(() => SelectedTodoList);
+
+            if (SelectedTodoList != null)
+            {
+                Task.Run(GetListItems);
+            }
+        }
+    }
+
+    private IList<TodoItemDto> todoItems;
+    public IList<TodoItemDto> TodoItems
+    {
+        get
+        {
+            return todoItems;
+        }
+        set
+        {
+            todoItems = value;
+            NotifyOfPropertyChange(() => TodoItems);
         }
     }
 
@@ -80,6 +102,19 @@ internal class TodoManagmentViewModel : Screen
         if (selectedListId.HasValue && selectedListId.Value > 0)
         {
             SelectedTodoList = TodoLists.FirstOrDefault(list => list.Id == selectedListId.Value);
+        }
+    }
+
+    private async Task GetListItems()
+    {
+        if (InMemoryCache<int, IList<TodoItemDto>>.TryGet(SelectedTodoList.Id, out var list))
+        {
+            TodoItems = list;
+        }
+        else
+        {
+            TodoItems = await _sender.Send(new GetItemsQuery(SelectedTodoList.Id));
+            InMemoryCache<int, IList<TodoItemDto>>.AddOrUpdate(SelectedTodoList.Id, TodoItems);
         }
     }
 

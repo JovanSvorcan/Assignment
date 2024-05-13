@@ -1,4 +1,6 @@
-﻿using Assignment.Application.Common.Interfaces;
+﻿using Assignment.Application.Cache;
+using Assignment.Application.Common.Interfaces;
+using Assignment.Application.TodoLists.Queries.GetTodos;
 using Assignment.Domain.Entities;
 
 namespace Assignment.Application.TodoLists.Commands.CreateTodoList;
@@ -23,6 +25,8 @@ public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListComman
         _context.TodoLists.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        InMemoryCache<int, IList<TodoItemDto>>.Reset();
 
         return entity.Id;
     }
