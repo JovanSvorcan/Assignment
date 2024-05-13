@@ -40,7 +40,7 @@
                 </ListView.View>
             </ListView>
             <Button Content="Add Item" Command="{Binding DataContext.AddTodoItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" Grid.Row="1" Grid.Column="1" Margin="5"/>
-            <Button Content="Done" Command="{Binding DataContext.DoneTodoItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" Grid.Row="1" Grid.Column="2" Margin="5"/>
+            <Button IsEnabled="{Binding DataContext.IsDoneEnabled, RelativeSource={RelativeSource AncestorType=Window}}" Content="Done" Command="{Binding DataContext.DoneTodoItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" Grid.Row="1" Grid.Column="2" Margin="5"/>
         </Grid>
     </Grid>
 </UserControl>
