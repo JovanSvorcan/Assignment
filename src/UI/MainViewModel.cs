@@ -17,9 +17,10 @@ namespace Assignment.UI
             WeatherForecast = new RelayCommand(ShowWeatherForecast);
         }
 
-        private void ShowWeatherForecast(object obj)
+        private async void ShowWeatherForecast(object obj)
         {
-            throw new NotImplementedException();
+            var forecast = IoC.Get<WeatherForecastViewModel>();
+            await _windowManager.ShowDialogAsync(forecast);
         }
 
         private async void ShowTodoListManagment(object obj)

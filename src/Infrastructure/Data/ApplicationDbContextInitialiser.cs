@@ -103,5 +103,47 @@ public class ApplicationDbContextInitialiser
 
             await _context.SaveChangesAsync();
         }
+
+        if (!_context.Countries.Any())
+        {
+            _context.Countries.Add(new Country
+            {
+                Name = "Serbia",
+                Cities =
+                {
+                    new City { Name = "Novi Sad" },
+                    new City { Name = "Belgrade" },
+                    new City { Name = "Subotica" },
+                    new City { Name = "Nis" },
+                    new City { Name = "Kragujevac" },
+                }
+            });
+            _context.Countries.Add(new Country
+            {
+                Name = "Netherlands",
+                Cities =
+                {
+                    new City { Name = "Amsterdam" },
+                    new City { Name = "Utrecht" },
+                    new City { Name = "Groningen" },
+                    new City { Name = "Breda" },
+                    new City { Name = "Rotterdam" },
+                    new City { Name = "Maastricht" }
+                }
+            });
+            _context.Countries.Add(new Country
+            {
+                Name = "USA",
+                Cities =
+                {
+                    new City { Name = "Washington" },
+                    new City { Name = "New York" },
+                    new City { Name = "Las Vegas" },
+                    new City { Name = "Boston" }
+                }
+            });
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

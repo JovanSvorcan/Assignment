@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Assignment.UI.WeatherForecastView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Label HorizontalAlignment="Center" FontSize="30">Country</Label>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <ComboBox HorizontalAlignment="Center" MinWidth="200" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" FontSize="30"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Label HorizontalAlignment="Center" FontSize="30">City</Label>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <ComboBox HorizontalAlignment="Center" MinWidth="200" ItemsSource="{Binding Cities}" SelectedItem="{Binding SelectedCity}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" FontSize="30"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"
+                   Content="{Binding Temperature}" ContentStringFormat="Current temperature: {0}"/>
+        </Grid>
+    </Grid>
+</UserControl>
